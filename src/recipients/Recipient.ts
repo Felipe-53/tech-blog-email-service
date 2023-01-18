@@ -19,7 +19,7 @@ export class Recipient extends Entity<RecipientProps> {
   }
 
   get email() {
-    return this.props.email.getValue();
+    return this.props.email;
   }
 
   get subscribedAt() {

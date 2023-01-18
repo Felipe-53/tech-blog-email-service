@@ -27,7 +27,7 @@ export class InMemoryRecipientRepo implements IRecipientRepo {
 
   async findByEmail(email: Email) {
     const result = this.recipients.find(
-      (rcp) => rcp.email === email.getValue()
+      (rcp) => rcp.email.getValue() === email.getValue()
     );
     if (!result) return null;
     return result;
