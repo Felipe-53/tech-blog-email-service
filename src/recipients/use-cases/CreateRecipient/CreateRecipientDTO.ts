@@ -1,0 +1,3 @@
+interface CreateRecipientDTO {
+  email: string;
+}
