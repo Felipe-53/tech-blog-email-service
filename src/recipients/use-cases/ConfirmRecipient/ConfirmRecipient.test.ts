@@ -1,4 +1,5 @@
 import { expect, test } from "vitest";
+import { InconsistentDataError } from "../../../shared/errors";
 import { InMemoryRecipientRepo } from "../../repos/InMemoryRecipientRepo";
 import { CreateRecipient } from "../CreateRecipient/CreateRecipient";
 import { ConfirmRecipient } from "./ConfirmRecipient";
@@ -17,4 +18,14 @@ test("Should be able to confirm a recipient", async () => {
   });
 
   expect(confirmedRecipient.confirmedAt).not.toBeNull();
+});
+
+test("Should not be able to confirm a recipient that doesn't exist", async () => {
+  const confirmRecipient = new ConfirmRecipient(inMemoryRecipientRepo);
+
+  expect(() =>
+    confirmRecipient.execute({
+      id: "non-existing",
+    })
+  ).rejects.toBeInstanceOf(InconsistentDataError);
 });
