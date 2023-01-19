@@ -19,5 +19,7 @@ export class ConfirmRecipient {
     recipient.confirmRecipient();
 
     await this.recipientRepo.save(recipient);
+
+    return recipient;
   }
 }
