@@ -2,6 +2,7 @@ import { InconsistentDataError } from "../../../shared/errors";
 import { Email } from "../../email";
 import { Recipient } from "../../Recipient";
 import { IRecipientRepo } from "../../repos/IRecipientRepo";
+import { CreateRecipientDTO } from "./CreateRecipientDTO";
 
 export class CreateRecipient {
   constructor(private recipientRepo: IRecipientRepo) {}

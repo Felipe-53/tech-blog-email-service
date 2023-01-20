@@ -1,3 +1,3 @@
-interface CreateRecipientDTO {
+export interface CreateRecipientDTO {
   email: string;
 }
