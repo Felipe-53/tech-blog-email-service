@@ -6,29 +6,28 @@ import { Recipient } from "./Recipient";
 let email = Email.create("felipe@email.com");
 
 test("Should be able to create a recipent", () => {
-  const recipient = Recipient.create({
+  const recipient = Recipient.createNew({
     email,
-    subscribedAt: new Date(),
-    confirmedAt: null,
   });
   expect(recipient.id).toBeInstanceOf(Identifier);
 });
 
-test("Should not be able to create a recipient with confirmed date prior to subscription date", () => {
+test("Should not be able to instantiate a recipient with confirmed date prior to subscription date", () => {
   expect(() =>
-    Recipient.create({
-      email,
-      subscribedAt: new Date("2023-01-01"),
-      confirmedAt: new Date("2022-01-01"),
-    })
+    Recipient.instantiate(
+      {
+        email,
+        subscribedAt: new Date("2023-01-01"),
+        confirmedAt: new Date("2022-01-01"),
+      },
+      Identifier.create()
+    )
   ).toThrow(/prior/);
 });
 
 test("Should be able to confirm a recipient", async () => {
-  const recipient = Recipient.create({
+  const recipient = Recipient.createNew({
     email,
-    subscribedAt: new Date(),
-    confirmedAt: null,
   });
 
   // prevent race condition
@@ -39,11 +38,14 @@ test("Should be able to confirm a recipient", async () => {
 });
 
 test("Should NOT be able to confirm a recipient that is already confirmed", async () => {
-  const recipient = Recipient.create({
-    email,
-    subscribedAt: new Date(),
-    confirmedAt: null,
-  });
+  const recipient = Recipient.instantiate(
+    {
+      email,
+      subscribedAt: new Date(),
+      confirmedAt: null,
+    },
+    Identifier.create()
+  );
 
   // prevent race condition
   await sleep(100);
