@@ -17,10 +17,8 @@ export class CreateRecipient {
       );
     }
 
-    const recipient = Recipient.create({
+    const recipient = Recipient.createNew({
       email: validatedEmail,
-      subscribedAt: new Date(),
-      confirmedAt: null,
     });
 
     await this.recipientRepo.save(recipient);
