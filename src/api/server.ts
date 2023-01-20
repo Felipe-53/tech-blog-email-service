@@ -8,15 +8,15 @@ export function buildServer(opts?: FastifyServerOptions) {
 
   app.setErrorHandler(async (err, request, reply) => {
     if (err instanceof ValidationError) {
-      return BaseController.jsonReponse(reply, {
+      return BaseController.jsonResponse(reply, {
         status: 400,
-        body: err,
+        body: { error: err },
       });
     }
 
-    console.log(err);
-    return BaseController.jsonReponse(reply, {
-      status: 500,
+    console.log("error handler: ", err);
+    return BaseController.jsonResponse(reply, {
+      status: err.statusCode || 500,
       body:
         process.env.NODE_ENV === "production"
           ? { error: "Internal Server Error" }
