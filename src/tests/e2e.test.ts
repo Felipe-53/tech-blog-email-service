@@ -45,7 +45,7 @@ test("Should NOT be able to create a recipient with invalid email", async () => 
   expect(response.statusCode).toBe(400);
 });
 
-test.only("Should NOT be able to create a recipient the was already created", async () => {
+test("Should NOT be able to create a recipient the was already created", async () => {
   const email = "felipe@email.com";
 
   const firstResponse = await server.inject({
