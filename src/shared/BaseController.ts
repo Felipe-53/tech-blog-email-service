@@ -13,7 +13,7 @@ export abstract class BaseController {
 
   abstract schema: FastifySchema;
 
-  static jsonReponse(reply: FastifyReply, params: JsonResponse) {
+  static jsonResponse(reply: FastifyReply, params: JsonResponse) {
     const { status, body } = params;
 
     reply.status(status);
@@ -22,30 +22,30 @@ export abstract class BaseController {
   }
 
   protected async ok(reply: FastifyReply, body: object) {
-    return BaseController.jsonReponse(reply, {
+    return BaseController.jsonResponse(reply, {
       status: 200,
       body,
     });
   }
 
   protected async created(reply: FastifyReply, body: object) {
-    return BaseController.jsonReponse(reply, {
+    return BaseController.jsonResponse(reply, {
       status: 201,
       body,
     });
   }
 
   protected async badRequest(reply: FastifyReply, error: object) {
-    return BaseController.jsonReponse(reply, {
+    return BaseController.jsonResponse(reply, {
       status: 400,
-      body: error,
+      body: { error },
     });
   }
 
   protected async conflict(reply: FastifyReply, error: object) {
-    return BaseController.jsonReponse(reply, {
+    return BaseController.jsonResponse(reply, {
       status: 409,
-      body: error,
+      body: { error },
     });
   }
 }
