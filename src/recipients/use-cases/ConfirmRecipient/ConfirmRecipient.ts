@@ -10,7 +10,7 @@ export class ConfirmRecipient {
   constructor(private recipientRepo: IRecipientRepo) {}
 
   async execute({ id }: ConfirmRecipientDTO) {
-    const identifier = Identifier.create(id);
+    const identifier = Identifier.instantiate(id);
     const recipient = await this.recipientRepo.findById(identifier);
     if (!recipient) {
       throw new InconsistentDataError(`Recipient with id ${id} does not exist`);
