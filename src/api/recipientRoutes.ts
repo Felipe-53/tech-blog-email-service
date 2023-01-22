@@ -1,8 +1,8 @@
 import { FastifyPluginAsync, FastifyRequest } from "fastify";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
-import { confirmRecipientController } from "../use-cases/ConfirmRecipient";
-import { createRecipientController } from "../use-cases/CreateRecipient/index";
+import { confirmRecipientController } from "../recipients/use-cases/ConfirmRecipient";
+import { createRecipientController } from "../recipients/use-cases/CreateRecipient/index";
 
 export const recipientRoutes: FastifyPluginAsync = async (app) => {
   app.route({

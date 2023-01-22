@@ -1,6 +1,6 @@
 import fastifyCors from "@fastify/cors";
 import fastify, { FastifyServerOptions } from "fastify";
-import { recipientRoutes } from "../recipients/infra/recipientRoutes";
+import { recipientRoutes } from "./recipientRoutes";
 import { BaseController } from "../shared/BaseController";
 import { ValidationError } from "../shared/errors";
 
