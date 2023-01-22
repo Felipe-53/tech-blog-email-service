@@ -1,3 +1,4 @@
+import fastifyCors from "@fastify/cors";
 import fastify, { FastifyServerOptions } from "fastify";
 import { recipientRoutes } from "../recipients/infra/recipientRoutes";
 import { BaseController } from "../shared/BaseController";
@@ -5,6 +6,10 @@ import { ValidationError } from "../shared/errors";
 
 export function buildServer(opts?: FastifyServerOptions) {
   const app = fastify(opts);
+
+  app.register(fastifyCors, {
+    origin: "https://felipebarbosa.dev",
+  });
 
   app.setErrorHandler(async (err, request, reply) => {
     if (err instanceof ValidationError) {
