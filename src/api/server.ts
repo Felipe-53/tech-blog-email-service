@@ -14,7 +14,9 @@ export function buildServer(opts?: FastifyServerOptions) {
       });
     }
 
-    reply.log.error("Error Handler:\n", err);
+    reply.log.error("Error handler");
+    reply.log.error(err);
+
     return BaseController.jsonResponse(reply, {
       status: err.statusCode || 500,
       body:
