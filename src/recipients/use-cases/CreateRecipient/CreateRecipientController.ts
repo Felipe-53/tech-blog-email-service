@@ -5,6 +5,7 @@ import { CreateRecipient } from "./CreateRecipient";
 import { InconsistentDataError } from "../../../shared/errors";
 import { Recipient } from "../../Recipient";
 import { zodToJsonSchema } from "zod-to-json-schema";
+import { RecipientMap } from "../../RecipientMap";
 
 const createRepicientBody = z.object({
   email: z.string().email(),
@@ -33,7 +34,9 @@ export class CreateRecipientController extends BaseController {
       throw error;
     }
 
-    return this.created(reply, recipient);
+    return this.created(reply, {
+      recipient: RecipientMap.toDTO(recipient),
+    });
   }
 
   get schema() {
