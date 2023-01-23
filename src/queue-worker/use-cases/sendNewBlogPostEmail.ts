@@ -1,7 +1,7 @@
 import SG from "@sendgrid/mail";
 import assert from "assert";
 import { findAllConfirmedRecipients } from "../../recipients/use-cases/FindAllConfirmedRecipients";
-import { env } from "../env";
+import { env } from "../../env";
 
 SG.setApiKey(env.send_grid_api_key);
 

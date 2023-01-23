@@ -1,6 +1,6 @@
 import { SQSHandler } from "aws-lambda";
 import { z } from "zod";
-import { sendNewBlogPostEmail } from "./use-cases/sendEmail";
+import { sendNewBlogPostEmail } from "./use-cases/sendNewBlogPostEmail";
 
 const postDataSchema = z.object({
   title: z.string(),
