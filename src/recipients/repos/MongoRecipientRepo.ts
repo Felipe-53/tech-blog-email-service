@@ -7,10 +7,8 @@ import { IRecipientRepo } from "./IRecipientRepo";
 
 const prisma = new PrismaClient();
 
-let recipients: Recipient[] = [];
-
-export function clearDb() {
-  recipients = [];
+export async function clearDb() {
+  await prisma.dBRecipient.deleteMany();
 }
 
 export class MongoRecipientRepo implements IRecipientRepo {
