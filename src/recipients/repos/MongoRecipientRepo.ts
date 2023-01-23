@@ -1,11 +1,18 @@
 import { PrismaClient } from "@prisma/client";
+import { env } from "../../env";
 import { Identifier } from "../../shared/Identifier";
 import { Email } from "../email";
 import { Recipient } from "../Recipient";
 import { RecipientMap } from "../RecipientMap";
 import { IRecipientRepo } from "./IRecipientRepo";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  datasources: {
+    db: {
+      url: env.database_url,
+    },
+  },
+});
 
 export async function clearDb() {
   await prisma.dBRecipient.deleteMany();
