@@ -15,4 +15,6 @@ model DBRecipient {
   email      String @unique
   subscribedAt DateTime
   confirmedAt  DateTime?
+
+  @@map("recipient")
 }
