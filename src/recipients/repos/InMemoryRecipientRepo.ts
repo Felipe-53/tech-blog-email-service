@@ -12,10 +12,11 @@ export function clearDb() {
 export class InMemoryRecipientRepo implements IRecipientRepo {
   async save(recipient: Recipient) {
     const exists = recipients.find((rcp) => rcp.id === recipient.id);
-    if (exists) {
-      recipients = recipients.filter((rcp) => rcp.id !== recipient.id);
+    if (!exists) {
       recipients.push(recipient);
+      return;
     }
+    recipients = recipients.filter((rcp) => rcp.id !== recipient.id);
     recipients.push(recipient);
   }
 
