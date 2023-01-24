@@ -11,8 +11,8 @@ datasource db {
 }
 
 model DBRecipient {
-  id           String    @id @default(auto()) @map("_id") @db.ObjectId
-  email      String @unique
+  id           String    @id @map("_id")
+  email        String    @unique
   subscribedAt DateTime
   confirmedAt  DateTime?
 
