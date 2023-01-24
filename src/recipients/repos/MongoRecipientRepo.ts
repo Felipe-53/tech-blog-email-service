@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { DBRecipient, PrismaClient } from "@prisma/client";
 import { env } from "../../env";
 import { Identifier } from "../../shared/Identifier";
 import { Email } from "../email";
@@ -37,15 +37,20 @@ export class MongoRecipientRepo implements IRecipientRepo {
       },
     });
 
-    if (exists) {
-      await prisma.dBRecipient.update({
-        where: { id: recipient.id.getValue() },
+    if (!exists) {
+      await prisma.dBRecipient.create({
         data: RecipientMap.toPersistence(recipient),
       });
+      return;
     }
 
-    await prisma.dBRecipient.create({
-      data: RecipientMap.toPersistence(recipient),
+    let updateRecipientData: Partial<DBRecipient>;
+    updateRecipientData = RecipientMap.toPersistence(recipient);
+    delete updateRecipientData.id;
+
+    await prisma.dBRecipient.update({
+      where: { id: recipient.id.getValue() },
+      data: updateRecipientData,
     });
   }
 
