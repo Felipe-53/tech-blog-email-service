@@ -15,10 +15,21 @@ const prisma = new PrismaClient({
 });
 
 export async function clearDb() {
+  if (process.env.NODE_ENV !== "test") {
+    console.error("WARNING: trying to clear db in non-testing environment");
+    process.exit(1);
+  }
   await prisma.dBRecipient.deleteMany();
 }
 
 export class MongoRecipientRepo implements IRecipientRepo {
+  constructor() {
+    prisma.$connect().catch((err) => {
+      console.log(err);
+      process.exit(1);
+    });
+  }
+
   async save(recipient: Recipient) {
     const exists = await prisma.dBRecipient.findUnique({
       where: {
@@ -64,7 +75,7 @@ export class MongoRecipientRepo implements IRecipientRepo {
   async findById(id: Identifier) {
     const response = await prisma.dBRecipient.findUnique({
       where: {
-        email: id.getValue(),
+        id: id.getValue(),
       },
     });
 
