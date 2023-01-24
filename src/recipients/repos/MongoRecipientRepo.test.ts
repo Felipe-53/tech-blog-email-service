@@ -40,4 +40,9 @@ test("Should be able to confirm a recipient", async () => {
   expect(confirmedRcp).not.toBeNull();
 
   expect(confirmedRcp!.confirmedAt).toBeInstanceOf(Date);
+
+  const allConfirmed = await mongoRepo.getAllConfirmed();
+
+  expect(allConfirmed.length).toBe(1);
+  expect(allConfirmed[0]).toStrictEqual(confirmedRcp);
 });
