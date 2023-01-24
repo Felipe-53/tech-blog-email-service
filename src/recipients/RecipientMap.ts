@@ -16,16 +16,13 @@ export class RecipientMap {
     );
   }
 
-  public static toPersistence(rcp: Recipient) {
-    let rv: Omit<DBRecipient, "id">;
-
-    rv = {
+  public static toPersistence(rcp: Recipient): DBRecipient {
+    return {
+      id: rcp.id.getValue(),
       email: rcp.email.getValue(),
       confirmedAt: rcp.confirmedAt,
       subscribedAt: rcp.subscribedAt,
     };
-
-    return rv;
   }
 
   public static toDTO(recipient: Recipient): RecipientDTO {
