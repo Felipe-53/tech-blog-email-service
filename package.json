@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:dev": "vitest --watch"
+    "test:dev": "vitest --watch",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Felipe53",
