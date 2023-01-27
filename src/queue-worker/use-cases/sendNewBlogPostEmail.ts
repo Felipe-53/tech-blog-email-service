@@ -32,5 +32,15 @@ export async function sendNewBlogPostEmail(request: SendMailDTO) {
 
   const [response] = await SG.send(emails);
 
-  assert(response.statusCode === 202);
+  try {
+    assert(response.statusCode === 202);
+  } catch {
+    console.error("Unable to send emails");
+    console.log("Failed messages:");
+    console.log(emails);
+    console.error("API Response");
+    console.log(response);
+
+    throw new Error(JSON.stringify(response));
+  }
 }
