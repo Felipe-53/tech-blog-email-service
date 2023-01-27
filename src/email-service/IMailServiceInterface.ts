@@ -16,6 +16,7 @@ export interface MailRequest {
 
 interface MailResponse {
   accepted: boolean;
+  info: object;
 }
 
 export interface IMailService {
