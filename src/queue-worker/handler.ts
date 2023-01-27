@@ -5,7 +5,7 @@ import { sendNewBlogPostEmail } from "./use-cases/sendNewBlogPostEmail";
 const postDataSchema = z.object({
   title: z.string(),
   excerpt: z.string(),
-  link: z.string(),
+  link: z.string().url(),
 });
 
 export const handler: SQSHandler = async (event, context) => {
