@@ -15,4 +15,7 @@ test.skip("should be able to send email", async () => {
   });
 
   expect(response.accepted).toBeTruthy();
+  expect(response.info).toBeDefined();
+
+  console.log(response.info);
 });

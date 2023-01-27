@@ -23,6 +23,7 @@ export class SGMailService implements IMailService {
 
     return {
       accepted: response.statusCode === 202,
+      info: response,
     };
   }
 }
