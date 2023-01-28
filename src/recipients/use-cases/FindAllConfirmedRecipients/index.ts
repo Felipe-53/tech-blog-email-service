@@ -1,7 +1,7 @@
-import { InMemoryRecipientRepo } from "../../repos/InMemoryRecipientRepo";
+import { MongoRecipientRepo } from "../../repos/MongoRecipientRepo";
 import { FindAllConfirmedRecipients } from "./FindAllConfirmedRecipients";
 
-const inMemoryRepo = new InMemoryRecipientRepo();
+const mongoRecipientRepo = new MongoRecipientRepo();
 export const findAllConfirmedRecipients = new FindAllConfirmedRecipients(
-  inMemoryRepo
+  mongoRecipientRepo
 );
