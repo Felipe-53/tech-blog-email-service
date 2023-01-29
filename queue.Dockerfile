@@ -10,6 +10,6 @@ RUN npx prisma generate
 
 RUN npm run build
 
-RUN cp -R ./build/* ./
+RUN cp -R ./build/src/* ./
 
-CMD [ "src.queue-worker.handler.handler" ]
+CMD [ "queue-worker-handler.handler" ]
