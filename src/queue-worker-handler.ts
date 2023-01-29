@@ -20,10 +20,22 @@ export const handler: SQSHandler = async (event, context) => {
 
     const postData = result.data;
 
-    await sendNewBlogPostEmail({
+    const { response, emails } = await sendNewBlogPostEmail({
       postTitle: postData.title,
       postExcerpt: postData.excerpt,
       postLink: postData.link,
     });
+
+    if (response.statusCode !== 202) {
+      console.error("Unable to send emails");
+      console.log("Failed messages:");
+      console.log(emails);
+      console.error("API Response");
+      console.log(response);
+      throw new Error(JSON.stringify(response));
+    }
+
+    console.info("Successfully sent emails to the following recipients");
+    console.info(emails);
   }
 };
