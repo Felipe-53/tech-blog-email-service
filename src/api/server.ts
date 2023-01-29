@@ -24,10 +24,7 @@ export function buildServer(opts?: FastifyServerOptions) {
 
     return BaseController.jsonResponse(reply, {
       status: err.statusCode || 500,
-      body:
-        process.env.NODE_ENV === "production"
-          ? { error: "Internal Server Error" }
-          : { error: err },
+      body: { error: err },
     });
   });
 
