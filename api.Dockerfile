@@ -10,6 +10,6 @@ RUN npx prisma generate
 
 RUN npm run build
 
-RUN cp -R ./build/* ./
+RUN cp -R ./build/src/* ./
 
-CMD [ "src.api.handler.handler" ]
+CMD [ "recipient-api-handler.handler" ]
