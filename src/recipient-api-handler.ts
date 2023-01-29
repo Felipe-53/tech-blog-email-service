@@ -1,5 +1,5 @@
 import awsLambdaFastify from "@fastify/aws-lambda";
-import { buildServer } from "./server";
+import { buildServer } from "./api/server";
 
 const app = buildServer({
   logger: true,
