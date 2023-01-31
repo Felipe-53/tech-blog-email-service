@@ -1,8 +1,8 @@
-import { InMemoryRecipientRepo } from "../../repos/InMemoryRecipientRepo";
+import { MongoRecipientRepo } from "../../repos/MongoRecipientRepo";
 import { CreateRecipient } from "./CreateRecipient";
 import { CreateRecipientController } from "./CreateRecipientController";
 
-const recipientRepo = new InMemoryRecipientRepo();
+const recipientRepo = new MongoRecipientRepo();
 const createRecipient = new CreateRecipient(recipientRepo);
 const createRecipientController = new CreateRecipientController(
   createRecipient

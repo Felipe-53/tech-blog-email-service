@@ -1,8 +1,14 @@
 import { afterEach } from "vitest";
 import { expect, test } from "vitest";
+import { env } from "../../env";
 import { Email } from "../email";
 import { Recipient } from "../Recipient";
 import { clearDb, MongoRecipientRepo } from "./MongoRecipientRepo";
+
+if (!env.database_url.includes("testing")) {
+  console.error("Trying to run e2e tests with a non-testing database");
+  process.exit(1);
+}
 
 afterEach(async () => {
   await clearDb();

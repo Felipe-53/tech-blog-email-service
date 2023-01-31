@@ -2,11 +2,17 @@ import { FastifyInstance } from "fastify";
 import { afterEach, beforeEach, expect } from "vitest";
 import { test } from "vitest";
 import { buildServer } from "../api/server";
+import { env } from "../env";
 import { Recipient } from "../recipients/Recipient";
 import { RecipientDTO } from "../recipients/RecipientDTO";
 import { clearDb } from "../recipients/repos/InMemoryRecipientRepo";
 
 let server: FastifyInstance;
+
+if (!env.database_url.includes("testing")) {
+  console.error("Trying to run e2e tests with a non-testing database");
+  process.exit(1);
+}
 
 beforeEach(() => {
   server = buildServer();
