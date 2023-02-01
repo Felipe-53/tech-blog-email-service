@@ -11,6 +11,7 @@ export function buildServer(opts?: FastifyServerOptions) {
     origin: "https://felipebarbosa.dev",
   });
 
+  // TODO: JSON.stringify(err) return as empty object
   app.setErrorHandler(async (err, request, reply) => {
     if (err instanceof ValidationError) {
       return BaseController.jsonResponse(reply, {
