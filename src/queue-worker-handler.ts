@@ -2,8 +2,10 @@ import { DeleteMessageCommand, SQSClient } from "@aws-sdk/client-sqs";
 import assert from "assert";
 import { SQSHandler } from "aws-lambda";
 import { z } from "zod";
+import { SGMailService } from "./email-service/SGMailService";
 import { env } from "./env";
 import { sendNewBlogPostEmail } from "./queue-worker/use-cases/sendNewBlogPostEmail";
+import { findAllConfirmedRecipients } from "./recipients/use-cases/FindAllConfirmedRecipients";
 
 const postDataSchema = z.object({
   title: z.string(),
@@ -23,39 +25,39 @@ export const handler: SQSHandler = async (event, context) => {
 
     const postData = result.data;
 
-    const { response, emails } = await sendNewBlogPostEmail({
-      postTitle: postData.title,
-      postExcerpt: postData.excerpt,
-      postLink: postData.link,
-    });
+    const recipients = await findAllConfirmedRecipients.execute();
 
-    if (response.statusCode !== 202) {
-      console.error("Unable to send emails");
-      console.log("Failed messages:");
-      console.log(emails);
-      console.error("API Response");
-      console.log(response);
-      throw new Error(JSON.stringify(response));
+    const mailService = new SGMailService(env.send_grid_api_key);
+
+    const sentEmails = [];
+
+    for (const recipient of recipients) {
+      const email = {
+        from: "felipeasbarbosa.dev@gmail.com",
+        to: recipient.email.getValue(),
+        templateId: "d-9c68fec05f8f44839da2a7908caf8805",
+        dynamicTemplateData: {
+          post_title: postData.title,
+          post_excerpt: postData.excerpt,
+          post_link: postData.link,
+        },
+      };
+
+      const result = await mailService.send(email);
+
+      if (!result.accepted) {
+        console.error(`Failed to deliver email`);
+        console.error(email);
+        console.error(result.info);
+        continue;
+      }
+
+      sentEmails.push(email);
     }
 
-    const sqsClient = new SQSClient({ region: "sa-east-1" });
-    const deleteCommand = new DeleteMessageCommand({
-      QueueUrl: env.aws_sqs_queue_url,
-      ReceiptHandle: record.receiptHandle,
-    });
-
-    try {
-      const deleteMessageResponse = await sqsClient.send(deleteCommand);
-      assert(
-        deleteMessageResponse.$metadata.httpStatusCode === 200,
-        `Delete Message status code response is not 200\n ${deleteMessageResponse}`
-      );
-    } catch (err) {
-      console.error("Failed to delete processed message");
-      console.error(err);
-    }
-
-    console.info("Successfully sent emails to the following recipients");
-    console.info(emails);
+    console.info(
+      `Successfully sent ${sentEmails.length} out of ${recipients.length} confirmed recipients`
+    );
+    console.info(sentEmails);
   }
 };
