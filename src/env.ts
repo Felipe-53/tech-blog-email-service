@@ -7,6 +7,7 @@ const env = {
   node_env: process.env.NODE_ENV as string,
   send_grid_api_key: process.env.SEND_GRID_API_KEY as string,
   database_url: process.env.DATABASE_URL as string,
+  aws_sqs_queue_url: process.env.AWS_SQS_QUEUE_URL as string,
 };
 
 assertNonEmptyString(env.node_env);
