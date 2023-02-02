@@ -66,10 +66,6 @@ export class Recipient extends Entity<RecipientProps> {
   }
 
   confirmRecipient() {
-    if (this.props.confirmedAt) {
-      throw new InconsistentDataError("The reicipent is already confirmed");
-    }
-
     this.props.confirmedAt = new Date();
   }
 }
