@@ -1,5 +1,8 @@
+import { DeleteMessageCommand, SQSClient } from "@aws-sdk/client-sqs";
+import assert from "assert";
 import { SQSHandler } from "aws-lambda";
 import { z } from "zod";
+import { env } from "./env";
 import { sendNewBlogPostEmail } from "./queue-worker/use-cases/sendNewBlogPostEmail";
 
 const postDataSchema = z.object({
@@ -33,6 +36,23 @@ export const handler: SQSHandler = async (event, context) => {
       console.error("API Response");
       console.log(response);
       throw new Error(JSON.stringify(response));
+    }
+
+    const sqsClient = new SQSClient({ region: "sa-east-1" });
+    const deleteCommand = new DeleteMessageCommand({
+      QueueUrl: env.aws_sqs_queue_url,
+      ReceiptHandle: record.receiptHandle,
+    });
+
+    try {
+      const deleteMessageResponse = await sqsClient.send(deleteCommand);
+      assert(
+        deleteMessageResponse.$metadata.httpStatusCode === 200,
+        `Delete Message status code response is not 200\n ${deleteMessageResponse}`
+      );
+    } catch (err) {
+      console.error("Failed to delete processed message");
+      console.error(err);
     }
 
     console.info("Successfully sent emails to the following recipients");
